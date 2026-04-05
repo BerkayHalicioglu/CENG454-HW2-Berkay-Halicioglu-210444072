@@ -90,6 +90,7 @@ public class FlightExamManager : MonoBehaviour
             statusText.text = "Threat cleared! Proceed to landing.";
             statusText.color = Color.green;
             missionText.text = "Mission: Return and land safely.";
+            Invoke("ClearStatusText", 3f);
         }
         else
         {
