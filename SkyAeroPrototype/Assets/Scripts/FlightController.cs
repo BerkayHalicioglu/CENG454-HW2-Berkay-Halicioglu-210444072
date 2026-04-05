@@ -28,7 +28,6 @@ public class FlightController : MonoBehaviour
     {
         HandleRotation();
         HandleThrust();
-        ClampToGround();
     }
  
     private void HandleRotation() 
@@ -59,17 +58,6 @@ public class FlightController : MonoBehaviour
         if (Input.GetKey(KeyCode.Space)) // Space for thrust
         {
             transform.Translate(Vector3.forward * thrustSpeed * Time.deltaTime);
-        }
-    }
-
-    private void ClampToGround()
-    {
-        Vector3 rayOrigin = transform.position + Vector3.up * 5f;
-        if (Physics.Raycast(rayOrigin, Vector3.down, out RaycastHit hit, 100f))
-        {
-            float minY = hit.point.y + 1f;
-            if (transform.position.y < minY)
-                transform.position = new Vector3(transform.position.x, minY, transform.position.z);
         }
     }
 } 
