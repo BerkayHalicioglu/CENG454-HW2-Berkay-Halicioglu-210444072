@@ -24,11 +24,12 @@ public class FlightController : MonoBehaviour
         rb.freezeRotation = true;
     } 
  
-    void Update()// or FixedUpdate() 
-    { 
-        HandleRotation(); 
-        HandleThrust(); 
-    } 
+    void Update()// or FixedUpdate()
+    {
+        HandleRotation();
+        HandleThrust();
+        ClampToGround();
+    }
  
     private void HandleRotation() 
     { 
@@ -52,12 +53,23 @@ public class FlightController : MonoBehaviour
  
     } 
  
-    private void HandleThrust() 
-    { 
-        // TODO (Task 3-D): 
+    private void HandleThrust()
+    {
+        // TODO (Task 3-D):
         if (Input.GetKey(KeyCode.Space)) // Space for thrust
         {
             transform.Translate(Vector3.forward * thrustSpeed * Time.deltaTime);
         }
-    } 
+    }
+
+    private void ClampToGround()
+    {
+        Vector3 rayOrigin = transform.position + Vector3.up * 5f;
+        if (Physics.Raycast(rayOrigin, Vector3.down, out RaycastHit hit, 100f))
+        {
+            float minY = hit.point.y + 1f;
+            if (transform.position.y < minY)
+                transform.position = new Vector3(transform.position.x, minY, transform.position.z);
+        }
+    }
 } 

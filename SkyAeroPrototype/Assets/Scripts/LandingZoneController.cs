@@ -9,8 +9,7 @@ public class LandingZoneController : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        Debug.Log("LandingArea'ya bir şey girdi: " + other.gameObject.name + " Tag: " + other.gameObject.tag);
-        if (other.CompareTag("Player"))
+        if (other.CompareTag("LandingArea"))
         {
             examManager.TryLand();
         }
