@@ -4,17 +4,17 @@ using System.Collections;
 public class DangerZoneController : MonoBehaviour
 {
     [SerializeField] private FlightExamManager examManager;
+    [SerializeField] private MissileLauncher missileLauncher;
     [SerializeField] private float missileDelay = 5f;
 
     private Coroutine activeCountdown;
+    private Transform playerTransform;
 
     private void OnTriggerEnter(Collider other)
     {
-        // YENİ RADARIMIZ: Küpe ne çarparsa çarpsın konsola yazdıracak!
-        Debug.Log("DİKKAT! Kırmızı küpe bir şey girdi. Adı: " + other.gameObject.name + " | Etiketi (Tag): " + other.gameObject.tag);
-
         if (other.CompareTag("Player"))
         {
+            playerTransform = other.transform;
             examManager.EnterDangerZone();
             activeCountdown = StartCoroutine(CountdownAndLaunch());
         }
@@ -30,7 +30,12 @@ public class DangerZoneController : MonoBehaviour
                 StopCoroutine(activeCountdown);
                 activeCountdown = null;
             }
-            //TODO: Aktif füzeyi yok etme kodunu Task 3'te buraya yazacağzı.
+
+            if (missileLauncher != null)
+            {
+                missileLauncher.DestroyActiveMissile();
+            }
+            playerTransform = null;
         }
     }
     
@@ -38,7 +43,10 @@ public class DangerZoneController : MonoBehaviour
     {
         yield return new WaitForSeconds(missileDelay);
 
-        Debug.Log("5 saniye doldu! Füze fırlatılıyor...");
-        // TODO: Füze fırlatma komutunu Task 3'te buraya yazacağız.
+        if (missileLauncher != null && playerTransform != null)
+        {
+            missileLauncher.Launch(playerTransform);
+            examManager.OnMissileLaunched();
+        }
     }     
 }
