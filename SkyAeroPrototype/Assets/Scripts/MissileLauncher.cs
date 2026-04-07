@@ -25,10 +25,20 @@ public class MissileLauncher : MonoBehaviour
 
             if (launchClip != null)
             {
-                AudioSource.PlayClipAtPoint(launchClip, launchPoint.position);
+                PlaySound(launchClip);
             }
         }
         return activeMissile;
+    }
+
+    private void PlaySound(AudioClip clip)
+    {
+        GameObject go = new GameObject("TempAudio");
+        AudioSource aus = go.AddComponent<AudioSource>();
+        aus.spatialBlend = 0f;
+        aus.clip = clip;
+        aus.Play();
+        Destroy(go, clip.length);
     }
 
     public void DestroyActiveMissile()

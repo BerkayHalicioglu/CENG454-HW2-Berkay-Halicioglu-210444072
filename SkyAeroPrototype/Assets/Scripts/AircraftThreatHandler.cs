@@ -8,6 +8,16 @@ public class AircraftThreatHandler : MonoBehaviour
 
     private Rigidbody rb;
 
+    private void PlaySound(AudioClip clip)
+    {
+        GameObject go = new GameObject("TempAudio");
+        AudioSource aus = go.AddComponent<AudioSource>();
+        aus.spatialBlend = 0f;
+        aus.clip = clip;
+        aus.Play();
+        Destroy(go, clip.length);
+    }
+
     void Start()
     {
         rb = GetComponent<Rigidbody>();
@@ -17,13 +27,11 @@ public class AircraftThreatHandler : MonoBehaviour
     {
         if (other.CompareTag("Missile"))
         {
-            Debug.Log("BOOM! Uçak vuruldu, başa dönülüyor!");
-            
             Destroy(other.gameObject);
 
             if (hitClip != null)
             {
-                AudioSource.PlayClipAtPoint(hitClip, transform.position);
+                PlaySound(hitClip);
             }
 
             if (examManager != null)

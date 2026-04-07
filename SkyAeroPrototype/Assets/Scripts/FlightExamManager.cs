@@ -55,7 +55,7 @@ public class FlightExamManager : MonoBehaviour
 
             if (successClip != null)
             {
-                AudioSource.PlayClipAtPoint(successClip, Camera.main.transform.position);
+                PlaySound(successClip);
             }
         }
     }
@@ -115,6 +115,16 @@ public class FlightExamManager : MonoBehaviour
         missionText.text = "Mission: Take off and try again.";
         
         Invoke("ClearStatusText", 2f);
+    }
+
+    private void PlaySound(AudioClip clip)
+    {
+        GameObject go = new GameObject("TempAudio");
+        AudioSource aus = go.AddComponent<AudioSource>();
+        aus.spatialBlend = 0f;
+        aus.clip = clip;
+        aus.Play();
+        Destroy(go, clip.length);
     }
 
     private void ClearStatusText()
