@@ -749,7 +749,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::FlightExamManager
   statusText: {fileID: 1917059682}
   missionText: {fileID: 42675076}
-  successClip: {fileID: 0}
+  successClip: {fileID: 8300000, guid: ad0e91dc94853f445aa4d41d43bf7ff8, type: 3}
   hasTakenOff: 0
   threatCleared: 0
   missionComplete: 0
